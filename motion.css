@@ -1,0 +1,122 @@
+/* ============================================ */
+/* АНИМАЦИИ                                     */
+/* Скрытое состояние задаётся только при .js   */
+/* (его ставит script.js, если нет просьбы      */
+/* уменьшить движение), поэтому без JS всё видно */
+/* ============================================ */
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to   { opacity: 1; transform: none; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to   { opacity: 1; }
+}
+
+@keyframes grow {
+    from { transform: scaleX(0); }
+    to   { transform: scaleX(1); }
+}
+
+/* ---------- Первый экран: появление при загрузке ---------- */
+/* backwards: после окончания анимации стили возвращаются к обычным,
+   поэтому hover у кнопки работает */
+.intro-tag      { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards 0s; }
+.intro-title    { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards 0.1s; }
+.intro-subtitle { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards 0.25s; }
+.intro-desc     { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards 0.35s; }
+.intro-btn      { animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards 0.5s; }
+.intro-visual img { animation: fadeIn 1.4s ease backwards 0.2s; }
+
+/* ---------- Появление секций при скролле ---------- */
+.js .block:not(.in) .label,
+.js .block:not(.in) h2,
+.js .block:not(.in) .about-desc,
+.js .block:not(.in) .tag-row,
+.js .block:not(.in) .gallery-main,
+.js .block:not(.in) .gallery-sub img,
+.js .block:not(.in) .thoughts li,
+.js .block:not(.in) .project,
+.js .block:not(.in) .fav,
+.js .block:not(.in) .artist,
+.js .block:not(.in) .names span,
+.js .quote:not(.in) p {
+    opacity: 0;
+}
+
+.js .block.in .label,
+.js .block.in h2,
+.js .block.in .about-desc,
+.js .block.in .tag-row,
+.js .block.in .gallery-main,
+.js .block.in .gallery-sub img,
+.js .block.in .thoughts li,
+.js .block.in .project,
+.js .block.in .fav,
+.js .block.in .artist,
+.js .quote.in p {
+    animation: rise 0.9s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+}
+
+/* Заголовки и подписи: чуть раньше, чем содержимое */
+.js .block.in .label { animation-delay: 0s; }
+.js .block.in h2     { animation-delay: 0.08s; }
+.js .block.in .about-desc:nth-of-type(1) { animation-delay: 0.2s; }
+.js .block.in .about-desc:nth-of-type(2) { animation-delay: 0.3s; }
+.js .block.in .tag-row { animation-delay: 0.4s; }
+.js .block.in .gallery-main { animation-delay: 0.15s; }
+.js .block.in .gallery-sub img:nth-child(1) { animation-delay: 0.3s; }
+.js .block.in .gallery-sub img:nth-child(2) { animation-delay: 0.4s; }
+
+/* Мысли и проекты: по очереди */
+.js .block.in .thoughts li:nth-child(1) { animation-delay: 0.15s; }
+.js .block.in .thoughts li:nth-child(2) { animation-delay: 0.25s; }
+.js .block.in .thoughts li:nth-child(3) { animation-delay: 0.35s; }
+.js .block.in .thoughts li:nth-child(4) { animation-delay: 0.45s; }
+.js .block.in .project:nth-child(1)     { animation-delay: 0.2s; }
+.js .block.in .project:nth-child(2)     { animation-delay: 0.32s; }
+
+/* Фавориты: каскад по карточкам */
+.js .block.in .fav:nth-child(1) { animation-delay: 0.1s; }
+.js .block.in .fav:nth-child(2) { animation-delay: 0.18s; }
+.js .block.in .fav:nth-child(3) { animation-delay: 0.26s; }
+.js .block.in .fav:nth-child(4) { animation-delay: 0.34s; }
+.js .block.in .fav:nth-child(5) { animation-delay: 0.42s; }
+
+/* Исполнители: строки по очереди */
+.js .block.in .artist:nth-child(1) { animation-delay: 0.15s; }
+.js .block.in .artist:nth-child(2) { animation-delay: 0.25s; }
+.js .block.in .artist:nth-child(3) { animation-delay: 0.35s; }
+
+/* Плейлист: задержка каждому имени задаёт script.js через --i */
+.js .block.in .names span {
+    animation: rise 0.6s cubic-bezier(0.2, 0.7, 0.2, 1) backwards;
+    animation-delay: calc(0.2s + var(--i, 0) * 35ms);
+}
+
+/* Полоски прогресса заполняются от левого края */
+.js .block:not(.in) .bar i {
+    transform: scaleX(0);
+    transform-origin: left center;
+}
+
+.js .block.in .bar i {
+    transform-origin: left center;
+    animation: grow 1.4s cubic-bezier(0.2, 0.7, 0.2, 1) backwards 0.3s;
+}
+
+/* ---------- Полоска прогресса вверху страницы ---------- */
+.scroll-progress {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, var(--lavender), var(--rose));
+    transform-origin: left center;
+    transform: scaleX(0);
+    z-index: 1001;
+    pointer-events: none;
+}
